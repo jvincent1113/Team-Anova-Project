@@ -1,2 +1,2 @@
 # Team_Anova_Project
-Project for DS 311 with Will, Vinny, and Tristan
+Project for DS 311 with Will, Vinny, and Tristan, and now Alyssa and Miles
