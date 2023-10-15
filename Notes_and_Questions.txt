@@ -1,0 +1,27 @@
+Fri 10/13
+Will: Why are some variables in the salary dataset description pdf not highlighted?
+
+Alyssa: Minimum wage for both paid wage per year and prevailing wage submitted is $5.05.
+
+
+Junjie
+:computer:  23 hours ago
+maybe the $5.05 is part time? :joy:
+its so low 
+
+Junjie
+:computer:  22 hours ago
+I think in this case, you can transform them into a more aggregated level of salary, lets say monthly pay for all the observations:
+if its hourly, you need to hourly wages * 40 hours (per week) * 52 (all the weeks in a year) and divided by 12 months to get a monthly pay rate.
+if its biweekly, you just times by 2
+if its annually, you divided by 12
+I am just providing a suggestion, not sure with the context
+
+Vinny: Duplicate job titles? (e.g. COMPUTER SCIENCE TEACHER POSTSECONDARY and COMOUTER SCIENCE TEACHER POST SECONDARY)
+
+
+Sat 10/14
+Will: 
+-27 columns in dataset, 25 variables in description
+-"Extras": WORK_STATE_ABBREVIATION, order
+-What is the order variable?? Index from previous uncleaned dataset? (Starts counting from 1)
