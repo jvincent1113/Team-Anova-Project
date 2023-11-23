@@ -47,7 +47,7 @@ avg_salary_by_subgroup
 
 ```{r}
 avg_salary_by_employer <- salaryData %>% 
-  group_by(EMPLOYER_NAME) %>%
+  group_by(EMPLOYER_NAME, JOB_TITLE_SUBGROUP) %>%
   summarize(AvgSalary = mean(PAID_WAGE_SUBMITTED)) %>%
   arrange(desc(AvgSalary))
 avg_salary_by_employer
@@ -63,6 +63,13 @@ avg_salary_by_workcity <- salaryData %>%
 
 
 avg_salary_by_workcity
+```
+```{r}
+avg_salary_by_location <- salaryData %>% 
+  group_by(EMPLOYER_NAME, WORK_CITY, WORK_STATE_ABBREVIATION, JOB_TITLE_SUBGROUP) %>%
+  summarize(AvgSalary = mean(PAID_WAGE_SUBMITTED)) %>%
+  arrange(desc(AvgSalary))
+avg_salary_by_location
 ```
 
 
