@@ -1,0 +1,78 @@
+---
+title: "Data-Related Jobs Salary Analysis"
+author: "William Lin"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE}
+rm(list=ls()) # Clean environment
+```
+
+```{r}
+library(ggplot2)
+```
+
+Key performance indicator (KPI): Paid Wage Per Year
+
+Team ANOVA will be analyzing the salary dataset for our DS311 project. The salary dataset displays records from 167,278 Labor Condition Applications (which include H1-B and other specialty visas) and the permanent resident applications from 2008 to 2015. The dataset intends to track who is entering and leaving the US government for work-related reasons. Each applicant provides information based on their work location, paid/prevailing wages, and their selected job position. Within this dataset, there are 25 variables with 2 extra non-meaningful variables. Several goals of the project include comparing prevailing wages and paid wages, comparing wages by job title, comparing wages by location, and more.
+
+
+## Salary data
+
+```{r}
+salary <- read.csv("/Users/linw/Desktop/Team-Anova-Project/Will_WIP/salary_data_states.csv")
+```
+
+```{r}
+# Inspecting the data
+dim(salary)
+head(salary)
+tail(salary)
+```
+
+The dataset has 167,278 observations and 27 columns. Two variables are extras or non-meaningful: the initials/codes of U.S. states/territories, and the variable order seems to be an index from a previous uncleaned version of the dataset.
+
+## Summary statistics
+
+```{r}
+summary(salary$PREVAILING_WAGE_PER_YEAR)
+summary(salary$PAID_WAGE_PER_YEAR)
+```
+
+The minimum, first quartile, median, third quartile, and maximum prevailing wage per year are as follows: \$10,504, \$56,880, \$70,928, \$90,459, and \$320,000. The mean prevailing wage per year is \$74274.86 with standard deviation \$25356.24. The numerical summary for the paid wage per year is as follows: \$10,500, \$63,000, \$78,600, \$100,006, and \$2,500,000. The mean paid wage per year is \$85,532.77 with standard deviation $38738.47. 
+
+## How do offered salaries compare to the prevailing wage?
+
+```{r}
+
+```
+
+- Are there job sub-categories that tend to get overpaid or under-paid?
+
+```{r}
+
+```
+
+- Are there companies that tend to over-pay or under-pay?
+
+```{r}
+
+```
+
+-  Will the answer change if I take standard of living into account?
+
+```{r}
+```
+
+## Paid Wage by College Degree
+
+```{r}
+
+```
+
+
