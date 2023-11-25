@@ -46,33 +46,134 @@ summary(salary$PAID_WAGE_PER_YEAR)
 
 The minimum, first quartile, median, third quartile, and maximum prevailing wage per year are as follows: \$10,504, \$56,880, \$70,928, \$90,459, and \$320,000. The mean prevailing wage per year is \$74274.86 with standard deviation \$25356.24. The numerical summary for the paid wage per year is as follows: \$10,500, \$63,000, \$78,600, \$100,006, and \$2,500,000. The mean paid wage per year is \$85,532.77 with standard deviation $38738.47. 
 
-## How do offered salaries compare to the prevailing wage?
+## Data cleaning
 
 ```{r}
+# Before cleaning
+boxplot(salary$PAID_WAGE_PER_YEAR)
+hist(salary$PAID_WAGE_PER_YEAR, 
+     main='Histogram of Paid Wage Per Year', 
+     xlab='Paid Wage Per Year')
 
+#
+```
+
+
+## How do offered salaries compare to the prevailing wage?
+
+We create a new feature "PAY_DIFFERENCE", which represents the difference between the paid wage per year and the prevailing wage per year.
+
+```{r}
+salary$PAY_DIFFERENCE = salary$PAID_WAGE_PER_YEAR - salary$PREVAILING_WAGE_PER_YEAR
+
+# Summary stats: Difference in wage (paid vs. prevailing)
+summary(salary$PAY_DIFFERENCE)
+```
+
+```{r}
+# Boxplot in base R
+boxplot(salary$PAY_DIFFERENCE)
+
+# Create box plot with ggplot2
+ggplot(data=salary, aes(y=PAY_DIFFERENCE, x=1)) + geom_boxplot()
+
+# Histogram with ggplot2
+ggplot(data=salary) + geom_histogram(aes(x=PAY_DIFFERENCE))
 ```
 
 - Are there job sub-categories that tend to get overpaid or under-paid?
 
 ```{r}
+ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
+                        y=PAY_DIFFERENCE)) + 
+  geom_boxplot() +
+  coord_flip()
 
+# Paid Wage by job sub-title
+ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
+                        y=PAID_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() + 
+  ylim(-50000, 200000)
+
+# Difference between paid and prevailing wage
+ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
+                        y=PAY_DIFFERENCE)) + 
+  geom_boxplot() +
+  coord_flip() + 
+  ylim(-75000, 200000)
+
+# Subset 
+bus_analyst_subset = subset(salary, JOB_TITLE_SUBGROUP == "business analyst")
+summary(bus_analyst_subset$PAID_WAGE_PER_YEAR)
 ```
+
 
 - Are there companies that tend to over-pay or under-pay?
 
 ```{r}
+faang_subset = subset(salary, 
+                      EMPLOYER_NAME == "FACEBOOK, INC." | 
+                        EMPLOYER_NAME == "APPLE INC." | 
+                        EMPLOYER_NAME == "AMAZON CORPORATE LLC" | 
+                        EMPLOYER_NAME == "NETFLIX, INC." | 
+                        EMPLOYER_NAME == "GOOGLE, INC.")
 
+# Difference between paid and prevailing wage, by employer
+ggplot(data=faang_subset, aes(x=EMPLOYER_NAME,
+                        y=PAY_DIFFERENCE)) + 
+  geom_boxplot() +
+  coord_flip()
 ```
 
 -  Will the answer change if I take standard of living into account?
 
 ```{r}
+
 ```
 
-## Paid Wage by College Degree
+## Paid Wage by Required Education Level
 
 ```{r}
+# Create factor variable: equation level required (7 levels)
+education = as.factor(salary$EDUCATION_LEVEL_REQUIRED)
+education = relevel(factor(education, levels=c("None", "High School", 
+                                               "Associate's", "Bachelor's", 
+                                               "Master's", "Doctorate", 
+                                               "Other")), 
+                                      ref = "None")
 
+# Plot
+ggplot(data=salary, aes(x=education,
+                        y=PAID_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() +
+  ylim(-20000, 300000) + 
+  xlab("Required Education Level") + 
+  ylab("Paid Wage Per Year")
+
+# Ascending Order
+ggplot(data=salary, aes(x=reorder(education, PAID_WAGE_PER_YEAR, FUN = median),
+                        y=PAID_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() +
+  ylim(-20000, 300000) + 
+  xlab("Required Education Level") + 
+  ylab("Paid Wage Per Year")
 ```
 
 
+## How is wage correlated with experience required?
+
+```{r}
+EXPERIENCE_REQUIRED_YEARS = salary$EXPERIENCE_REQUIRED_NUM_MONTHS / 12
+
+# Scatter plot with ggplot2
+ggplot(data=salary, aes(x=EXPERIENCE_REQUIRED_YEARS, 
+                        y=PAID_WAGE_PER_YEAR)) + 
+  geom_point() + 
+  ylab("Paid Wage Per Year") + 
+  xlab("Experience Required (Years)") + 
+  ylim(0, 300000) + 
+  geom_smooth(method=lm)
+```
