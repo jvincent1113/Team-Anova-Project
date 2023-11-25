@@ -37,10 +37,32 @@ summary(salary$PREVAILING_WAGE_PER_YEAR)
 summary(salary$PAID_WAGE_PER_YEAR)
 ```
 
-## How do offered salaries compare to the prevailing wage?
+The variables we are mainly concerned with are prevailing wage per year and paid wage per year. The minimum, first quartile, median, third quartile, and maximum prevailing wage per year are as follows: \$10,504, \$56,880, \$70,928, \$90,459, and \$320,000. The mean prevailing wage per year is \$74274.86 with standard deviation \$25356.24. The numerical summary for the paid wage per year is as follows: \$10,500, \$63,000, \$78,600, \$100,006, and \$2,500,000. The mean paid wage per year is \$85,532.77 with standard deviation $38738.47. 
+
+## Data cleaning
 
 ```{r}
-# Code here
+# Before cleaning
+boxplot(salary$)
+
+
+```
+
+## How do offered salaries compare to the prevailing wage?
+
+We create new feature "PAY_DIFFERENCE", which is representing the difference between paid wage per year and prevailing wage per year.
+
+```{r}
+# salary$PAY_DIFFERENCE = salary$Paid_WAGE_PER_YEAR - salary$PREVAILING_WAGE_PER_YEAR
+
+summary(salary$PAY_DIFFERENCE)
+
+#Creating boxplot
+
+boxplot(salary$PAY_DIFFERENCE)
+
+
+
 ```
 
 - Are there job sub-categories that tend to get overpaid or under-paid?
