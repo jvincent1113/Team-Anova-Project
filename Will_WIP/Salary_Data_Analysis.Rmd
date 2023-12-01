@@ -14,6 +14,8 @@ rm(list=ls()) # Clean environment
 ```
 
 ```{r}
+library(dplyr)
+library(tidyr)
 library(ggplot2)
 ```
 
@@ -42,20 +44,55 @@ The dataset has 167,278 observations and 27 columns. Two variables are extras or
 ```{r}
 summary(salary$PREVAILING_WAGE_PER_YEAR)
 summary(salary$PAID_WAGE_PER_YEAR)
+
+paid_wage_sum_stats <- salary %>%
+  summarize(Variable = "Paid Wage Per Year",
+            Min = min(PAID_WAGE_PER_YEAR),
+            Q25 = quantile(PAID_WAGE_PER_YEAR, 0.25),
+            Median = median(PAID_WAGE_PER_YEAR),
+            Mean = mean(PAID_WAGE_PER_YEAR),
+            Q75 = quantile(PAID_WAGE_PER_YEAR, 0.75),
+            Q99 = quantile(PAID_WAGE_PER_YEAR, 0.99),
+            Max = max(PAID_WAGE_PER_YEAR)) 
+
+prev_wage_sum_stats <- salary %>%
+  summarize(Variable = "Prevailing Wage Per Year",
+            Min = min(PREVAILING_WAGE_PER_YEAR, na.rm=T),
+            Q25 = quantile(PREVAILING_WAGE_PER_YEAR, 0.25, na.rm=T),
+            Median = median(PREVAILING_WAGE_PER_YEAR, na.rm=T),
+            Mean = mean(PREVAILING_WAGE_PER_YEAR, na.rm=T),
+            Q75 = quantile(PREVAILING_WAGE_PER_YEAR, 0.75, na.rm=T),
+            Q99 = quantile(PREVAILING_WAGE_PER_YEAR, 0.99, na.rm=T),
+            Max = max(PREVAILING_WAGE_PER_YEAR, na.rm=T)) 
+
+paid_wage_sum_stats; prev_wage_sum_stats
+sum_stats = bind_rows(paid_wage_sum_stats, prev_wage_sum_stats)
+sum_stats
 ```
 
 The minimum, first quartile, median, third quartile, and maximum prevailing wage per year are as follows: \$10,504, \$56,880, \$70,928, \$90,459, and \$320,000. The mean prevailing wage per year is \$74274.86 with standard deviation \$25356.24. The numerical summary for the paid wage per year is as follows: \$10,500, \$63,000, \$78,600, \$100,006, and \$2,500,000. The mean paid wage per year is \$85,532.77 with standard deviation $38738.47. 
 
-## Data cleaning
+## Visualization of key quantitative variables
 
 ```{r}
+ggplot(data=salary, aes(y=PAID_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() +
+  ylim(0, 300000) + 
+  ylab("Paid Wage Per Year") 
+
+ggplot(data=salary, aes(y=PREVAILING_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() +
+  ylim(0, 300000) + 
+  ylab("Prevailing Wage Per Year") 
+
 # Before cleaning
 boxplot(salary$PAID_WAGE_PER_YEAR)
 hist(salary$PAID_WAGE_PER_YEAR, 
      main='Histogram of Paid Wage Per Year', 
      xlab='Paid Wage Per Year')
 
-#
 ```
 
 
