@@ -43,7 +43,7 @@ The variables we are mainly concerned with are prevailing wage per year and paid
 
 ```{r}
 # Before cleaning
-boxplot(salary$)
+boxplot(salary$PAID_WAGE_PER_YEAR)
 
 
 ```
@@ -53,7 +53,7 @@ boxplot(salary$)
 We create new feature "PAY_DIFFERENCE", which is representing the difference between paid wage per year and prevailing wage per year.
 
 ```{r}
-# salary$PAY_DIFFERENCE = salary$Paid_WAGE_PER_YEAR - salary$PREVAILING_WAGE_PER_YEAR
+ salary$PAY_DIFFERENCE = salary$PAID_WAGE_PER_YEAR - salary$PREVAILING_WAGE_PER_YEAR
 
 summary(salary$PAY_DIFFERENCE)
 
@@ -61,13 +61,28 @@ summary(salary$PAY_DIFFERENCE)
 
 boxplot(salary$PAY_DIFFERENCE)
 
+# Boxplot in base R
+boxplot(salary$PAY_DIFFERENCE)
+
+# Create box plot with ggplot2
+ggplot(data=salary, aes(y=PAY_DIFFERENCE, x=1)) + geom_boxplot()+ ylim(-25000,50000)+coord_flip() + geom_boxplot(fill="darkgreen", alpha=0.25)  
+
+# Histogram with ggplot2
+ggplot(data=salary) + geom_histogram(aes(x=PAY_DIFFERENCE),fill="darkgreen", alpha=0.25)+ xlim(-25000,50000)  
 
 
 ```
 
 - Are there job sub-categories that tend to get overpaid or under-paid?
 
+
 ```{r}
+# Difference between paid and prevailing wage
+ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
+                        y=PAY_DIFFERENCE,fill=JOB_TITLE_SUBGROUP)) + theme(legend.position="none")+
+  geom_boxplot() +
+  coord_flip() + 
+  ylim(-75000, 200000) +scale_fill_brewer(palette="BuPu")
 
 ```
 
