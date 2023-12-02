@@ -46,7 +46,7 @@ summary(salary$PREVAILING_WAGE_PER_YEAR)
 summary(salary$PAID_WAGE_PER_YEAR)
 
 paid_wage_sum_stats <- salary %>%
-  summarize(Variable = "Paid Wage Per Year",
+  summarize(Variable = "Paid Wage Per Year ($)",
             Min = min(PAID_WAGE_PER_YEAR),
             Q25 = quantile(PAID_WAGE_PER_YEAR, 0.25),
             Median = median(PAID_WAGE_PER_YEAR),
@@ -56,7 +56,7 @@ paid_wage_sum_stats <- salary %>%
             Max = max(PAID_WAGE_PER_YEAR)) 
 
 prev_wage_sum_stats <- salary %>%
-  summarize(Variable = "Prevailing Wage Per Year",
+  summarize(Variable = "Prevailing Wage Per Year ($)",
             Min = min(PREVAILING_WAGE_PER_YEAR, na.rm=T),
             Q25 = quantile(PREVAILING_WAGE_PER_YEAR, 0.25, na.rm=T),
             Median = median(PREVAILING_WAGE_PER_YEAR, na.rm=T),
@@ -76,13 +76,13 @@ The minimum, first quartile, median, third quartile, and maximum prevailing wage
 
 ```{r}
 ggplot(data=salary, aes(y=PAID_WAGE_PER_YEAR)) + 
-  geom_boxplot() +
+  geom_boxplot(fill = "#6c9c54") +
   coord_flip() +
   ylim(0, 300000) + 
   ylab("Paid Wage Per Year") 
 
 ggplot(data=salary, aes(y=PREVAILING_WAGE_PER_YEAR)) + 
-  geom_boxplot() +
+  geom_boxplot(fill = "#e4545c") +
   coord_flip() +
   ylim(0, 300000) + 
   ylab("Prevailing Wage Per Year") 
@@ -105,6 +105,16 @@ salary$PAY_DIFFERENCE = salary$PAID_WAGE_PER_YEAR - salary$PREVAILING_WAGE_PER_Y
 
 # Summary stats: Difference in wage (paid vs. prevailing)
 summary(salary$PAY_DIFFERENCE)
+
+# Summary stats for pay difference
+pay_diff_sum_stats <- salary %>%
+  summarize(Q001 = quantile(PAY_DIFFERENCE, 0.001,na.rm=T),
+            Q25 = quantile(PAY_DIFFERENCE, 0.25,na.rm=T),
+            Median = median(PAY_DIFFERENCE,na.rm=T),
+            Mean = mean(PAY_DIFFERENCE,na.rm=T),
+            Q75 = quantile(PAY_DIFFERENCE, 0.75,na.rm=T),
+            Q95 = quantile(PAY_DIFFERENCE, 0.95,na.rm=T))
+pay_diff_sum_stats
 ```
 
 ```{r}
@@ -115,7 +125,8 @@ boxplot(salary$PAY_DIFFERENCE)
 ggplot(data=salary, aes(y=PAY_DIFFERENCE, x=1)) + geom_boxplot()
 
 # Histogram with ggplot2
-ggplot(data=salary) + geom_histogram(aes(x=PAY_DIFFERENCE))
+ggplot(data=salary) + geom_histogram(aes(x=PAY_DIFFERENCE),fill="darkgreen", alpha=0.25, binwidth = 2000, boundary = 0) + xlim(-25000,50000)
+
 ```
 
 - Are there job sub-categories that tend to get overpaid or under-paid?
@@ -197,6 +208,8 @@ ggplot(data=salary, aes(x=reorder(education, PAID_WAGE_PER_YEAR, FUN = median),
   ylim(-20000, 300000) + 
   xlab("Required Education Level") + 
   ylab("Paid Wage Per Year")
+
+
 ```
 
 
@@ -207,10 +220,9 @@ EXPERIENCE_REQUIRED_YEARS = salary$EXPERIENCE_REQUIRED_NUM_MONTHS / 12
 
 # Scatter plot with ggplot2
 ggplot(data=salary, aes(x=EXPERIENCE_REQUIRED_YEARS, 
-                        y=PAID_WAGE_PER_YEAR)) + 
+                        y=PAID_WAGE_PER_YEAR, color = JOB_TITLE_SUBGROUP)) + 
   geom_point() + 
   ylab("Paid Wage Per Year") + 
   xlab("Experience Required (Years)") + 
-  ylim(0, 300000) + 
-  geom_smooth(method=lm)
+  ylim(0, 300000) + geom_smooth(method=lm)
 ```
