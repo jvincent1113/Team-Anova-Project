@@ -57,7 +57,7 @@ avg_salary_by_employer
 
 ```{r}
 med_salary_by_employer <- salaryData %>%
-  group_by(JOB_TITLE_SUBGROUP, EMPLOYER_NAME) %>%
+  group_by(JOB_TITLE_SUBGROUP, WORK_STATE, EMPLOYER_NAME) %>%
   summarize(MedSalary = median(PAID_WAGE_SUBMITTED)) %>%
   filter(MedSalary == max(MedSalary, na.rm=TRUE)) %>%
   arrange(desc(MedSalary))
@@ -88,12 +88,11 @@ avg_salary_by_location
 
 
 ```{r} 
-avg_salary_by_location <- salaryData %>% 
-  group_by(WORK_STATE, PAID_WAGE_PER_YEAR) %>%
-  summarize(AvgPlaceSalary = mean(PAID_WAGE_SUBMITTED)) %>%
-  filter(AvgPlaceSalary == max(AvgPlaceSalary, na.rm=TRUE)) %>%
-  arrange(desc(AvgPlaceSalary))
-avg_salary_by_location
+median_salary_by_location <- salaryData %>% 
+  group_by(WORK_STATE) %>%
+  summarize(MedPlaceSalary = median(PAID_WAGE_PER_YEAR)) %>%
+  arrange(desc(MedPlaceSalary))
+median_salary_by_location
 
 ```
 ```{r}
