@@ -89,6 +89,19 @@ ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
 - Are there companies that tend to over-pay or under-pay?
 
 ```{r}
+faang_subset = subset(salary, 
+                      EMPLOYER_NAME == "FACEBOOK, INC." | 
+                        EMPLOYER_NAME == "APPLE INC." | 
+                        EMPLOYER_NAME == "AMAZON CORPORATE LLC" | 
+                        EMPLOYER_NAME == "NETFLIX, INC." | 
+                        EMPLOYER_NAME == "GOOGLE, INC.")
+
+# Difference between paid and prevailing wage, by employer
+ggplot(data=faang_subset, aes(x=EMPLOYER_NAME,
+                        y=PAY_DIFFERENCE,fill=EMPLOYER_NAME)) +
+  theme(legend.position="none")+
+  geom_boxplot() +
+  coord_flip() 
 
 ```
 
@@ -100,7 +113,32 @@ ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
 ## Paid Wage by College Degree
 
 ```{r}
+# Create factor variable: equation level required (7 levels)
+education = as.factor(salary$EDUCATION_LEVEL_REQUIRED)
+education = relevel(factor(education, levels=c("None", "High School", 
+                                               "Associate's", "Bachelor's", 
+                                               "Master's", "Doctorate", 
+                                               "Other")), 
+                                      ref = "None")
 
+# Plot
+ggplot(data=salary, aes(x=education,
+                        y=PAID_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() +
+  ylim(-20000, 300000) + 
+  xlab("Required Education Level") + 
+  ylab("Paid Wage Per Year")
+
+# Ascending Order
+ggplot(data=salary, aes(x=reorder(education, PAID_WAGE_PER_YEAR, FUN = median),
+                        y=PAID_WAGE_PER_YEAR, fill=EDUCATION_LEVEL_REQUIRED)) +
+  theme(legend.position="none")+
+  geom_boxplot() +
+  coord_flip() +
+  ylim(-20000, 300000) + 
+  xlab("Required Education Level") + 
+  ylab("Paid Wage Per Year")
 ```
 
 
