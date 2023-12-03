@@ -103,4 +103,24 @@ salary_by_location <- salaryData %>%
   arrange(desc(AvgSalary))
 salary_by_location
 ```
+```{r}
+location_a <- salary_CA_subset %>%
+  group_by(JOB_TITLE_SUBGROUP) %>%
+  summarize(CA_MedianSalary = median(PAID_WAGE_PER_YEAR)) %>%
+  arrange(desc(CA_MedianSalary))
+location_a
+```
+```{r}
+salary_CA_subset = subset(salaryData, WORK_STATE == "California")
+```
+
+```{r}
+salary_MA_subset = subset(salaryData, WORK_STATE == "Massachusetts")
+location_MA <- salary_MA_subset %>%
+  group_by(JOB_TITLE_SUBGROUP) %>%
+  summarize(MA_MedianSalary = median(PAID_WAGE_PER_YEAR)) %>%
+  arrange(desc(MA_MedianSalary))
+location_MA
+```
+
 
