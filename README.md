@@ -1,7 +1,7 @@
 # Team Anova Project
-## Project Overview
 Members: Vinny Giannantonio, Alyssa Gacos, William Lin, Tristan Lampley, and Miles Mendez 
 
+## Project Overview
 This is a group project for DS311 - Technologies in Data Analytics taught at San Francisco State University. Team ANOVA will be analyzing the salary dataset for our DS311 project. The salary dataset displays records from 167,278 Labor Condition Applications (which include H1-B and other specialty visas) and the permanent resident applications from 2008 to 2015. The dataset intends to track who is entering and leaving the US government for work-related reasons. Each applicant provides information based on their work location, paid/prevailing wages, and their selected job position. Several goals of the project include comparing prevailing wages and paid wages, comparing wages by job title, comparing wages by location, and more. The full analysis will be presented in a powerpoint presentation.
 
 Packages used: R, Python, Tableau
