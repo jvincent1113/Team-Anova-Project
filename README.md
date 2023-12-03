@@ -1,13 +1,14 @@
 # Team Anova Project
-## Project Overview and Fun Facts
+## Project Overview
 Members: Vinny Giannantonio, Alyssa Gacos, William Lin, Tristan Lampley, and Miles Mendez 
+
 This is a group project for DS311 - Technologies in Data Analytics taught at San Francisco State University. Team ANOVA will be analyzing the salary dataset for our DS311 project. The salary dataset displays records from 167,278 Labor Condition Applications (which include H1-B and other specialty visas) and the permanent resident applications from 2008 to 2015. The dataset intends to track who is entering and leaving the US government for work-related reasons. Each applicant provides information based on their work location, paid/prevailing wages, and their selected job position. Several goals of the project include comparing prevailing wages and paid wages, comparing wages by job title, comparing wages by location, and more. The full analysis will be presented in a powerpoint presentation.
 
 Packages used: R, Python, Tableau
 
-## Key performance indicator (KPI): Paid Wage Per Year (in salary_data) 
-
 ## Notes About the Dataset
+Key performance indicator (KPI): Paid Wage Per Year (in salary_data) 
+
 The dataset has 167,278 observations and 27 columns. Two variables are extras or non-meaningful: the initials/codes of U.S. states/territories, and the variable order seems to be an index from a previous uncleaned version of the dataset. Some job titles show up twice in the data. For example, “COMPUTER SCIENCE TEACHER POSTSECONDARY” also shows up as “COMPUTER SCIENCE TEACHER POST SECONDARY.” 
 
 ## Initial Observations
