@@ -1,0 +1,144 @@
+---
+title: "Salary Data Analysis"
+author: "Tristan Lampley"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE}
+rm(list=ls()) # Clean environment
+```
+
+```{r}
+library(ggplot2)
+```
+
+## Salary data
+
+```{r}
+salary <- read.csv("C:/Users/kurox/Desktop/DS311/Team_Anova/Team-Anova-Project/Tristan_WIP/salary_data_states.csv")
+```
+
+```{r}
+# Inspecting the data
+dim(salary)
+head(salary)
+tail(salary)
+```
+
+## Summary statistics
+
+```{r}
+summary(salary$PREVAILING_WAGE_PER_YEAR)
+summary(salary$PAID_WAGE_PER_YEAR)
+```
+
+The variables we are mainly concerned with are prevailing wage per year and paid wage per year. The minimum, first quartile, median, third quartile, and maximum prevailing wage per year are as follows: \$10,504, \$56,880, \$70,928, \$90,459, and \$320,000. The mean prevailing wage per year is \$74274.86 with standard deviation \$25356.24. The numerical summary for the paid wage per year is as follows: \$10,500, \$63,000, \$78,600, \$100,006, and \$2,500,000. The mean paid wage per year is \$85,532.77 with standard deviation $38738.47. 
+
+## Data cleaning
+
+```{r}
+# Before cleaning
+boxplot(salary$PAID_WAGE_PER_YEAR)
+
+
+```
+
+## How do offered salaries compare to the prevailing wage?
+
+We create new feature "PAY_DIFFERENCE", which is representing the difference between paid wage per year and prevailing wage per year.
+
+```{r}
+ salary$PAY_DIFFERENCE = salary$PAID_WAGE_PER_YEAR - salary$PREVAILING_WAGE_PER_YEAR
+
+summary(salary$PAY_DIFFERENCE)
+
+#Creating boxplot
+
+boxplot(salary$PAY_DIFFERENCE)
+
+# Boxplot in base R
+boxplot(salary$PAY_DIFFERENCE)
+
+# Create box plot with ggplot2
+ggplot(data=salary, aes(y=PAY_DIFFERENCE, x=1)) + geom_boxplot()+ ylim(-25000,50000)+coord_flip() + geom_boxplot(fill="darkgreen", alpha=0.25)  
+
+# Histogram with ggplot2
+ggplot(data=salary) + geom_histogram(aes(x=PAY_DIFFERENCE),fill="darkgreen", alpha=0.25)+ xlim(-25000,50000)  
+
+
+```
+
+- Are there job sub-categories that tend to get overpaid or under-paid?
+
+
+```{r}
+# Difference between paid and prevailing wage
+ggplot(data=salary, aes(x=JOB_TITLE_SUBGROUP,
+                        y=PAY_DIFFERENCE,fill=JOB_TITLE_SUBGROUP)) + theme(legend.position="none")+
+  geom_boxplot() +
+  coord_flip() + 
+  ylim(-75000, 200000) +scale_fill_brewer(palette="BuPu")
+
+```
+
+- Are there companies that tend to over-pay or under-pay?
+
+```{r}
+faang_subset = subset(salary, 
+                      EMPLOYER_NAME == "FACEBOOK, INC." | 
+                        EMPLOYER_NAME == "APPLE INC." | 
+                        EMPLOYER_NAME == "AMAZON CORPORATE LLC" | 
+                        EMPLOYER_NAME == "NETFLIX, INC." | 
+                        EMPLOYER_NAME == "GOOGLE, INC.")
+
+# Difference between paid and prevailing wage, by employer
+ggplot(data=faang_subset, aes(x=EMPLOYER_NAME,
+                        y=PAY_DIFFERENCE,fill=EMPLOYER_NAME)) +
+  theme(legend.position="none")+
+  geom_boxplot() +
+  coord_flip() 
+
+```
+
+-  Will the answer change if I take standard of living into account?
+
+```{r}
+```
+
+## Paid Wage by College Degree
+
+```{r}
+# Create factor variable: equation level required (7 levels)
+education = as.factor(salary$EDUCATION_LEVEL_REQUIRED)
+education = relevel(factor(education, levels=c("None", "High School", 
+                                               "Associate's", "Bachelor's", 
+                                               "Master's", "Doctorate", 
+                                               "Other")), 
+                                      ref = "None")
+
+# Plot
+ggplot(data=salary, aes(x=education,
+                        y=PAID_WAGE_PER_YEAR)) + 
+  geom_boxplot() +
+  coord_flip() +
+  ylim(-20000, 300000) + 
+  xlab("Required Education Level") + 
+  ylab("Paid Wage Per Year")
+
+# Ascending Order
+ggplot(data=salary, aes(x=reorder(education, PAID_WAGE_PER_YEAR, FUN = median),
+                        y=PAID_WAGE_PER_YEAR, fill=EDUCATION_LEVEL_REQUIRED)) +
+  theme(legend.position="none")+
+  geom_boxplot() +
+  coord_flip() +
+  ylim(-20000, 300000) + 
+  xlab("Required Education Level") + 
+  ylab("Paid Wage Per Year")
+```
+
+
