@@ -1,0 +1,17 @@
+Number,State,Average_Salary,Cost_of_Living_Index,COL_Ratio
+1,Washington,96887.08,115.7,837.40
+6,Georgia,72325.67,90.9,795.66
+11,Illinois,66909.28,91.8,728.86
+0,California,99190.31,136.4,727.20
+10,Texas,67483.28,93.0,725.63
+13,Pennsylvania,66120.19,94.8,697.47
+9,Virginia,68407.99,101.4,674.64
+3,New Hampshire,75943.25,115.6,656.95
+5,Maine,72595.25,110.7,655.78
+4,Oregon,75016.47,114.7,654.02
+2,New York,81722.32,126.5,646.03
+7,New Jersey,70514.90,110.3,639.30
+8,Maryland,69127.53,114.8,602.16
+12,Hawaii,66240.33,179.2,369.64
+15,Vermont,42000.00,114.9,365.54
+14,Puerto Rico,45000.00,NaN,NaN
